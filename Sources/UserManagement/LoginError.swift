@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoginError: Error {
+public enum LoginError: Error {
     case passwordIncorrect
     case usernameNotRecognised
     case userNotFound

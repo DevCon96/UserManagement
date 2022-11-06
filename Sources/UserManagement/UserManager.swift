@@ -8,11 +8,11 @@
 import Foundation
 
 /* This should only ever be a used as a singleton */
-class UserManager: NSObject, EditUserDelegate {
+public class UserManager: NSObject, EditUserDelegate {
     public var currentUser: User?
     private var userbase: [UUID : User] = [:] // TODO: Store this in a DB no on the manager
     
-    func login(email: String, password: String) throws {
+    public func login(email: String, password: String) throws {
         guard !userbase.isEmpty else { throw LoginError.userBaseEmpty }
         
         for (_, user) in userbase {
@@ -25,12 +25,12 @@ class UserManager: NSObject, EditUserDelegate {
         throw LoginError.userNotFound
     }
     
-    func logout() throws {
+    public func logout() throws {
         guard currentUser != nil else { throw LoginError.userNotFound }
         currentUser = nil
     }
     
-    func createNewUser(email: String, userName: String, password: String) -> User {
+    public func createNewUser(email: String, userName: String, password: String) -> User {
         // TODO: save user into Core Data.
         // TODO: STRETCH GOAL - Send user to server for remote saving.
         let newUser = User(email: email, username: userName, password: password)
@@ -43,11 +43,11 @@ class UserManager: NSObject, EditUserDelegate {
         return newUser
     }
     
-    func removeUser(uuid: UUID) {
+    public func removeUser(uuid: UUID) {
         userbase.removeValue(forKey: uuid)
     }
     
-    func getUser(username: String?, password: String?, uuid: UUID? = nil) throws -> User {
+    public func getUser(username: String?, password: String?, uuid: UUID? = nil) throws -> User {
         guard let password else { throw LoginError.passwordIncorrect }
         if let uuid, let user = userbase[uuid], user.matchPassword(password) {
             return user
@@ -63,11 +63,11 @@ class UserManager: NSObject, EditUserDelegate {
     }
     
     // Conform to EditUserDelegate
-    func userNameChanged(for user: User) {
+    public func userNameChanged(for user: User) {
         updateUser(user)
     }
     
-    func passwordChanged(for user: User) {
+    public func passwordChanged(for user: User) {
         updateUser(user)
     }
     
@@ -95,7 +95,7 @@ class UserManager: NSObject, EditUserDelegate {
         
 }
 
-protocol EditUserDelegate {
+public protocol EditUserDelegate {
     func userNameChanged(for user: User)
     func passwordChanged(for user: User)
 }

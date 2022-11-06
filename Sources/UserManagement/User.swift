@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UserState {
+public enum UserState {
     // Status of open and closed
     //  o registered and loggedIn == open
     case registered
@@ -17,7 +17,7 @@ enum UserState {
     case unknown // Unset or not yet defined
 }
 
-class User {
+public class User {
     // MARK: Need these properties
     private var _username: String
     var isUserLocked: Bool = false
